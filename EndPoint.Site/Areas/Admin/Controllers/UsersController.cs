@@ -15,9 +15,13 @@ namespace EndPoint.Site.Areas.Admin.Controllers
             _getUserService = getUserService;
         }
         [Area("Admin")]
-        public IActionResult Index()
+        public IActionResult Index(string searchkey, int page)
         {
-            return View();
+            return View(_getUserService.Execute(new RequestGetUserDto 
+            {
+                SearchKey= searchkey,
+                Page=page
+            }));
         }
     }
 }

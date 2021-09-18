@@ -12,7 +12,7 @@ namespace StoreExample.Application.Services.Queries.GetUsers
         {
             _context = context;
         }
-        public List<GetUserServiceDto> Execute(RequestGetUserDto request)
+        public ResultGetUserServiceDto Execute(RequestGetUserDto request)
         {
             var users = _context.Users.AsQueryable();
             if (! string.IsNullOrWhiteSpace(request.SearchKey))
@@ -20,13 +20,19 @@ namespace StoreExample.Application.Services.Queries.GetUsers
                 users = users.Where(p => p.FullName.Contains(request.SearchKey) && p.Email.Contains(request.SearchKey));
             }
             int rowsCount = 0;
-            return users.ToPaged(request.Page, 20, out rowsCount).Select(p => new GetUserServiceDto
+            var userList= users.ToPaged(request.Page, 20, out rowsCount).Select(p => new GetUserServiceDto
             {
                 Id = p.Id,
                 FullName = p.FullName,
                 Email = p.Email,
                 Password = p.Password
             }).ToList();
+
+            return new ResultGetUserServiceDto
+            {
+                Rows = rowsCount,
+                Users = userList
+            };
         }
     }
 

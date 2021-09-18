@@ -7,7 +7,7 @@ namespace StoreExample.Application.Services.Queries.GetUsers
 {
     public interface IGetUserService
     {
-        List<GetUserServiceDto> Execute(RequestGetUserDto request);
+        ResultGetUserServiceDto Execute(RequestGetUserDto request);
     } 
 
 }
